@@ -2,7 +2,6 @@ import {Module} from '@nestjs/common'
 import {SequelizeModule} from "@nestjs/sequelize";
 import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
-import * as process from "process";
 import {User} from "./users/users.model";
 import { RolesModule } from './roles/roles.module';
 import {Role} from "./roles/roles.model";
@@ -17,7 +16,7 @@ import {Cinema} from "./cinema/cinema.model";
     providers: [],
     imports: [
         ConfigModule.forRoot({
-            envFilePath: `.${process.env.NODE_ENV}.env`
+            envFilePath: '.env'
         }),
         SequelizeModule.forRoot({
             dialect: 'postgres',

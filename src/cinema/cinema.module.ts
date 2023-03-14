@@ -16,7 +16,7 @@ import {AuthModule} from "../auth/auth.module";
         forwardRef(() => AuthModule),
         HttpModule,
         ConfigModule.forRoot({
-            envFilePath: '.env.example',
+            envFilePath: '.env',
         }),
         SequelizeModule.forFeature([Cinema, User, UserCinemas]),
     ],

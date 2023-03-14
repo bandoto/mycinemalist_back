@@ -23,10 +23,13 @@ export class CinemaService {
                     map(data => {
                         const sortedData = data.map(item => {
                             return {
-                                description: item.overview.slice(0, 10),
+                                description: item.overview.slice(0, 50),
                                 name: item.title,
                                 cinemaNumber: item.id,
-                                image: item.poster_path
+                                image: item.poster_path,
+                                date: item.release_date,
+                                language: item.original_language,
+                                rate: item.vote_average
                             }
                         })
                         return sortedData
@@ -47,7 +50,10 @@ export class CinemaService {
                             description: data.overview,
                             name: data.title,
                             cinemaNumber: data.id,
-                            image: data.poster_path
+                            image: data.poster_path,
+                            date: data.release_date,
+                            language: data.original_language,
+                            rate: data.vote_average
                         }
                     })
                 )

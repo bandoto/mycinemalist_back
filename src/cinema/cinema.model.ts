@@ -4,7 +4,11 @@ import {UserCinemas} from "./user-cinemas.model";
 
 interface CinemaAttr {
     name: string,
-    cinemaNumber: number
+    cinemaNumber: number,
+    image: string,
+    date: string,
+    language: string,
+    rate: number
 }
 
 @Table({tableName: 'cinema'})
@@ -20,6 +24,15 @@ export class Cinema extends Model<Cinema, CinemaAttr> {
 
     @Column({type: DataType.STRING, allowNull: false})
     image: string;
+
+    @Column({type: DataType.STRING})
+    date: string;
+
+    @Column({type: DataType.STRING})
+    language: string;
+
+    @Column({type: DataType.INTEGER})
+    rate: number;
 
     @BelongsToMany(() => User, () => UserCinemas)
     users: User[]
