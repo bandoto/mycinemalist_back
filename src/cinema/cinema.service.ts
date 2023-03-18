@@ -14,14 +14,14 @@ export class CinemaService {
                 @InjectModel(Cinema) private cinemaRepository: typeof Cinema) {
     }
 
-    async getAllCinemas(query: CinemaQueryDto): Promise<CinemaModel[]> {
+    async getAllCinemas(query: CinemaQueryDto): Promise<CinemaResponse<CinemaModel>> {
         const response = await firstValueFrom(
                 this.httpService
-                .get<CinemaResponse>(`${process.env.API_LINK}/movie/${query.tag}?api_key=${process.env.API_KEY}&page=${query.page}&language=uk-UA`)
+                .get<CinemaResponse<ResultResponse>>(`${process.env.API_LINK}/movie/${query.tag}?api_key=${process.env.API_KEY}&page=${query.page}&language=uk-UA`)
                 .pipe(
-                    map(response => response.data.results),
+                    map(response => response.data),
                     map(data => {
-                        const sortedData = data.map(item => {
+                        const sortedData = data.results.map(item => {
                             return {
                                 description: item.overview.slice(0, 50),
                                 name: item.title,
@@ -32,7 +32,12 @@ export class CinemaService {
                                 rate: item.vote_average
                             }
                         })
-                        return sortedData
+                        return {
+                            page: data.page,
+                            results: sortedData,
+                            total_pages: data.total_pages,
+                            total_results: data.total_results
+                        }
                     })
                 )
         )
@@ -64,6 +69,36 @@ export class CinemaService {
     async getCinemaFromDataBase(cinemaNumber: number): Promise<Cinema> {
         const cinema = await this.cinemaRepository.findOne({where: {cinemaNumber}})
         return cinema
+    }
+    //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+    async getCinemaByName(cinemaName: string): Promise<CinemaResponse<CinemaModel>> {
+        const response = await firstValueFrom(
+            this.httpService
+                .get<CinemaResponse<ResultResponse>>(`${process.env.API_LINK}/search/movie?api_key=${process.env.API_KEY}&query=${cinemaName}&language=uk-UA`)
+                .pipe(
+                    map(response => response.data),
+                    map(data => {
+                        const sortedData = data.results.map(item => {
+                            return {
+                                description: item.overview.slice(0, 50),
+                                name: item.title,
+                                cinemaNumber: item.id,
+                                image: item.poster_path,
+                                date: item.release_date,
+                                language: item.original_language,
+                                rate: item.vote_average
+                            }
+                        })
+                        return {
+                            page: data.page,
+                            results: sortedData,
+                            total_pages: data.total_pages,
+                            total_results: data.total_results
+                        }
+                    })
+                )
+        )
+        return response
     }
 
 }

@@ -17,4 +17,9 @@ export class CinemaController {
         return this.cinemaService.getOneCinema(id)
     }
 
+    @Get('search/:cinemaName')
+    getByName(@Param('cinemaName') cinemaName: string) {
+        return this.cinemaService.getCinemaByName(cinemaName)
+    }
+
 }

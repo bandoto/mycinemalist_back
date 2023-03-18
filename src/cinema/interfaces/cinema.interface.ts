@@ -1,6 +1,14 @@
-export interface CinemaResponse {
+export interface CinemaResponse<T> {
     page: number,
-    results: ResultResponse[]
+    results: T[],
+    total_results: number,
+    total_pages: number,
+    dates?: Dates
+}
+
+export interface Dates {
+    maximum: string,
+    minimum: string
 }
 
 export interface ResultResponse {
