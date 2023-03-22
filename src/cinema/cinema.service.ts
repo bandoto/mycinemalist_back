@@ -29,7 +29,7 @@ export class CinemaService {
                                 image: item.poster_path,
                                 date: item.release_date,
                                 language: item.original_language,
-                                rate: item.vote_average
+                                rate: Number((item.vote_average * 10).toFixed(1))
                             }
                         })
                         return {
@@ -58,7 +58,7 @@ export class CinemaService {
                             image: data.poster_path,
                             date: data.release_date,
                             language: data.original_language,
-                            rate: data.vote_average
+                            rate: Number((data.vote_average * 10).toFixed(1))
                         }
                     })
                 )
@@ -70,7 +70,7 @@ export class CinemaService {
         const cinema = await this.cinemaRepository.findOne({where: {cinemaNumber}})
         return cinema
     }
-    //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+
     async getCinemaByName(cinemaName: string): Promise<CinemaResponse<CinemaModel>> {
         const response = await firstValueFrom(
             this.httpService
@@ -86,7 +86,7 @@ export class CinemaService {
                                 image: item.poster_path,
                                 date: item.release_date,
                                 language: item.original_language,
-                                rate: item.vote_average
+                                rate: Number((item.vote_average * 10).toFixed(1))
                             }
                         })
                         return {

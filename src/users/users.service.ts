@@ -24,7 +24,6 @@ export class UsersService {
     }
 
     async setToFavorite(id: number, req: CreateRequestUserDto): Promise<User> {
-        console.log(req)
         const user = await this.getUserByEmail(req.email)
         const cinemaOne = await this.cinemaService.getOneCinema(id)
         const [cinema, created] = await this.cinemaRepository.findOrCreate({
@@ -38,10 +37,12 @@ export class UsersService {
         return user
     }
 
-    async deleteFromFavorite(id: number, req: CreateRequestUserDto): Promise<void> {
+    async deleteFromFavorite(id: number, req: CreateRequestUserDto): Promise<User> {
         const user = await this.getUserByEmail(req.email)
         const cinema = await this.cinemaService.getCinemaFromDataBase(id)
         await user.$remove('cinemas', [cinema.id])
+
+        return user
     }
 
     async getAllUsers(): Promise<User[]> {
