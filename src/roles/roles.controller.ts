@@ -8,14 +8,14 @@ import {RolesGuard} from "../auth/roles.guard";
 export class RolesController {
 
     constructor(private roleService: RolesService) {}
-
-    @Roles("ADMIN")
-    @UseGuards(RolesGuard)
+    //
+    // @Roles("ADMIN")
+    // @UseGuards(RolesGuard)
     @Post()
     create(@Body() dto: CreateRoleDto) {
         return this.roleService.createRole(dto)
     }
-
+    //
     @Roles("ADMIN")
     @UseGuards(RolesGuard)
     @Get('/:value')
