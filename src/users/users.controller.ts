@@ -18,7 +18,7 @@ export class UsersController {
         return this.userService.createUser(userDto)
     }
 
-    @Roles("USER")
+    @Roles("ADMIN")
     @UseGuards(RolesGuard)
     @Get()
     getAll() {
